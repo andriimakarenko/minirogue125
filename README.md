@@ -1,2 +1,2 @@
-# minirogue125
-ft-minirogue in this repository will pass evaluations with a 125 mark
+# 42-ft_minirouge
+The Python version of a simplified classics: Rogue (1980)
