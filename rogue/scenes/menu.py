@@ -33,7 +33,7 @@ class Menu(object):
 			y = self.height // 2 - len(self.options) // 2 + idx
 			if idx == selected:
 				# stdscr.attron(curses.color_pair(1))
-				stdscr.addstr(y, x, option + " + ")
+				stdscr.addstr(y, x - 5, " --> " + option + " <-- ")
 				# stdscr.attroff(curses.color_pair(1))
 			else:
 				stdscr.addstr(y, x, option)
