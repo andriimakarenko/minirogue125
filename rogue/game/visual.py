@@ -13,3 +13,10 @@ import time
 def start_game(window):
 	window.addstr(13, 37, "Game started")
 	window.refresh()
+
+
+def vs_key_events(input_map, controller):
+	hero_y, hero_x = controller.getheroyx()
+	# [[13, 17, 'B'], [2, 28, 'K']]
+	enemies = controller.getmonsters()
+	input_map[0][0]
