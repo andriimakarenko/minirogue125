@@ -9,22 +9,15 @@ def parser_txt(filename):
         data = f.readlines()
 
     for line in data:
-        new_line = ''
-
-        # yes, it works through the ass, but .replace not work here for some reason
-        for ch in line:
-            if ch in repl_to:
-                new_line += '.'
-            else:
-                new_line += ch
+        new_line = ''.join(['.' if ch in repl_to else ch for ch in line]).rstrip()
         array.append(new_line)
     return array
 
 
 def main():
     ret = parser_txt('file.txt')
-    for line in ret:
-        print(line)
+    for n, line in enumerate(ret):
+        print("{0}{1}".format(n, line))
 
 
 if __name__ == '__main__':
