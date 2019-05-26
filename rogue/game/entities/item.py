@@ -11,5 +11,9 @@
 # supported and that's the power potion.
 
 class Item(object):
-	def __init__(self, y = 0, x = 0):
-		pass
+	def __init__(self, id, y, x, symbol):
+		self.id = id
+		self.name = ''
+		self.symbol = symbol
+		self.y = y
+		self.x = x

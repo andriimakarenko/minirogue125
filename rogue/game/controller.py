@@ -25,21 +25,65 @@ class Controller(object):
 		self.lighted_zones = []
 
 	def initialize(self):
-		# print("Empiezando la importacion")
-		# print("Gracias por el juego, " + self.player_name)
+		print("Empiezando la importacion")
+		self.import_map()
+		print("Gracias por el juego, " + self.player_name)
+		print("El ID del monstruo ultimo = " + str(self.monsters[-1].id))
 
 	def import_map(self):
-		with open("rogue/levels/01", 'r') as level:
-			self.map = readlines(level)
-		for y in range(len(map)):
-			for x in range(len(map[y])):
-				if map[y][x] not in [' ', '—', '|']:
+		try:
+			with open("rogue/levels/01", 'r') as level:
+				self.map = level.readlines()
+		except IOError:
+			print("All went to hell")
+		for y in range(len(self.map)):
+			for x in range(len(self.map[y])):
+				if self.map[y][x] not in [' ', '—', '|']:
 					self.legit_coordinates.append((y, x))
-				if map[y][x] == '@':
+				if self.map[y][x] == '@':
 					self.hero.y, self.hero.x = y, x
-				elif map[y][x] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-					monster = Monster(y, x, map[y][x])
+				elif self.map[y][x] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+					monster = Monster(len(self.monsters), y, x, self.map[y][x])
 					self.monsters.append(monster)
-				elif map[y][x] in ['!', '*']:
-					item = Item(y, x, map[y][x])
+				elif self.map[y][x] in ['!', '*']:
+					item = Item(len(self.items), y, x, self.map[y][x])
 					self.items.append(item)
+
+	#########################################################################
+	#                           GIVE OUT INFO                               #
+	#########################################################################
+
+	def get_hero_hp(self):
+		return self.hero.hp
+
+	def get_hero_yx(self):
+		return self.hero.y, self.hero.x
+
+	def get_monsters(self):
+		result = []
+		for monster in self.monsters:
+			result.append([monster.y, monster.x, monster.letter])
+		return result
+
+	#########################################################################
+	#                      CONTROL REQUESTS HANDLING                        #
+	#########################################################################
+
+	def try_move(self, direction):
+		if direction == 'u':
+			if ((self.hero.y - 1), self.hero.x) in legit_coordinates:
+				self.hero.y -= 1
+				return True
+		if direction == 'd':
+			if ((self.hero.y + 1), self.hero.x) in legit_coordinates:
+				self.hero.y += 1
+				return True
+		if direction == 'l':
+			if (self.hero.y, (self.hero.x - 1)) in legit_coordinates:
+				self.hero.x -= 1
+				return True
+		if direction == 'd':
+			if (self.hero.y, (self.hero.x + 1)) in legit_coordinates:
+				self.hero.x += 1
+				return True
+		return False

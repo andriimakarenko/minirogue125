@@ -8,5 +8,9 @@
 #####################################################################
 
 class Monster(object):
-	def __init__(self, y = 0, x = 0):
-		pass
+	def __init__(self, id, y, x, letter):
+		self.id = id
+		self.name = ''
+		self.letter = letter
+		self.y = y
+		self.x = x
