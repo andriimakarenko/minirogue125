@@ -74,6 +74,9 @@ class Controller(object):
 	def is_lighted(self, y, x):
 		return True
 
+	def get_message(self):
+		return ""
+
 	#########################################################################
 	#                      CONTROL REQUESTS HANDLING                        #
 	#########################################################################
