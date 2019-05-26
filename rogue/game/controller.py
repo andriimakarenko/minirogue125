@@ -45,6 +45,8 @@ class Controller(object):
 				elif self.map[y][x] in ['!', '*', '%']:
 					item = Item(len(self.items), y, x, self.map[y][x])
 					self.items.append(item)
+		print("Muchas gracias por tu juego, " + self.player_name + "!")
+		print("Now gimme that 125, will u please?")
 
 	#########################################################################
 	#                           GIVE OUT INFO                               #
@@ -84,6 +86,11 @@ class Controller(object):
 		result += "Strength: {str}, ".format(str = self.hero.strength)
 		result += "Armor: {arm}, ".format(arm = self.hero.gold)
 		result += "XP: {xp}". format(xp = self.hero.xp)
+		return result
+
+	def get_final_count(self):
+		result = "You've done played and ended up scavaging {gold}".format(gold = self.hero.gold)
+		result += " gold and gaining {xp} XP".format(xp = self.hero.xp)
 		return result
 
 	#########################################################################

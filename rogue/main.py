@@ -34,13 +34,17 @@ def main():
 	# Counter-intuitive naming, I know. Short on time
 	selected_option = menu.draw()
 	if selected_option == "HS":
-		menu.print_highscore()
+		controller = Controller(player_name)
+		controller.initialize()
+		input_map = parser_txt("rogue/levels/02")
+		vs_main(input_map, controller)
 	elif selected_option == "MAN":
-		menu.print_manual()
+		controller = Controller(player_name)
+		controller.initialize()
+		input_map = parser_txt("rogue/levels/02")
+		vs_main(input_map, controller)
 	elif selected_option == "P":
 		controller = Controller(player_name)
 		controller.initialize()
 		input_map = parser_txt("rogue/levels/02")
 		vs_main(input_map, controller)
-
-	print(selected_option)

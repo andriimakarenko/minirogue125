@@ -87,7 +87,9 @@ def vs_main(input_map, controller):
 	stdscr.getch()
 	stdscr.erase()
 	if controller.get_hero_hp() == -1337:
-		stdscr.addstr(height // 2, width // 2 - 8, "CONGRATS!")
+		stdscr.addstr(height // 2, width // 2 - 4, "CONGRATS!")
+		msg = controller.get_final_count()
+		stdscr.addstr(height // 2 + 1, width // 2 - (len(msg) // 2), msg)
 		stdscr.getch()
 	else:
 		stdscr.addstr(height // 2, width // 2 - 8, "RIP and also -42")
