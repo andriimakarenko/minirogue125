@@ -86,7 +86,7 @@ class Controller(object):
 		
 		for item in self.items:
 			if item.y == y and item.x == x:
-				item.act(hero)
+				item.act(self.hero)
 				self.items.remove(item)
 				self.hero.y, self.hero.x = y, x
 				return

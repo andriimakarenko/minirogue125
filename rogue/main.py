@@ -11,7 +11,7 @@ import rogue
 import curses
 from rogue.scenes.menu import Menu
 from rogue.game.controller import Controller
-from rogue.game.visual import vs_main
+from rogue.game.visualtest import vs_main
 
 def main():
 	player_name = input("What's ur name, playa? ")
