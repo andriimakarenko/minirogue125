@@ -12,4 +12,12 @@
 
 class Hero(object):
 	def __init__(self, y = 0, x = 0):
-		pass
+		self.level = 1
+		self.xp = 0
+		self.hp = 16
+		self.maxhp = 16
+		self.strength = 16
+		self.armor = 4
+		self.gold = 0
+		self.y = 0
+		self.x = 0
