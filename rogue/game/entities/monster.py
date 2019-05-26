@@ -7,6 +7,8 @@
 #                                                                   #
 #####################################################################
 
+import random
+
 class Monster(object):
 	def __init__(self, id, y, x, letter):
 		self.id = id
@@ -14,3 +16,12 @@ class Monster(object):
 		self.letter = letter
 		self.y = y
 		self.x = x
+		self.hp = 5
+		self.received_hits = 0
+
+	def hit(self):
+		success = random.randint(0, 100)
+		if success // 4 > 10:
+			return True
+		else:
+		 	return False

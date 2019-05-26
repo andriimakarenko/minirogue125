@@ -10,6 +10,8 @@
 # Item will be a superclass later, but now there's only one item
 # supported and that's the power potion.
 
+import random
+
 class Item(object):
 	def __init__(self, id, y, x, symbol):
 		self.id = id
@@ -19,4 +21,9 @@ class Item(object):
 		self.x = x
 
 	def act(self, hero):
-		pass
+		if self.symbol == '*':
+			hero.gold += random.randint(1, 50)
+		if self.symbol == '!':
+			hero.strength += 5
+		if self.symbol == '%':
+			hero.hp = -1337

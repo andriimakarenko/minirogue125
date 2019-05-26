@@ -7,6 +7,7 @@
 #                                                                   #
 #####################################################################
 
+import random
 from rogue.game.entities.hero import Hero
 from rogue.game.entities.monster import Monster
 from rogue.game.entities.item import Item
@@ -23,16 +24,14 @@ class Controller(object):
 		self.rooms = [] # ID, upper left, and lower right in each
 		self.inventory = []
 		self.lighted_zones = []
+		self.message = ''
 
 	def initialize(self):
-		print("Empiezando la importacion")
 		self.import_map()
-		print("Gracias por el juego, " + self.player_name)
-		print("El ID del monstruo ultimo = " + str(self.monsters[-1].id))
 
 	def import_map(self):
 		try:
-			with open("rogue/levels/01", 'r') as level:
+			with open("rogue/levels/02", 'r') as level:
 				self.map = level.readlines()
 		except IOError:
 			print("All went to hell")
@@ -43,7 +42,7 @@ class Controller(object):
 				elif self.map[y][x] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
 					monster = Monster(len(self.monsters), y, x, self.map[y][x])
 					self.monsters.append(monster)
-				elif self.map[y][x] in ['!', '*']:
+				elif self.map[y][x] in ['!', '*', '%']:
 					item = Item(len(self.items), y, x, self.map[y][x])
 					self.items.append(item)
 
@@ -73,37 +72,67 @@ class Controller(object):
 		return True
 
 	def get_message(self):
-		return ""
+		output = self.message
+		self.message = ''
+		return output
+
+	def get_status(self):
+		result = ''
+		result = "Level: {lvl}, ".format(lvl = self.hero.level)
+		result += "Gold: {gold}, ".format(gold = self.hero.gold)
+		result += "HP: {hp}({hpmax}), ".format(hp = self.hero.hp, hpmax = self.hero.maxhp)
+		result += "Strength: {str}, ".format(str = self.hero.strength)
+		result += "Armor: {arm}, ".format(arm = self.hero.gold)
+		result += "XP: {xp}". format(xp = self.hero.xp)
+		return result
 
 	#########################################################################
 	#                      CONTROL REQUESTS HANDLING                        #
 	#########################################################################
 
 	def try_move(self, direction):
-		y, x = self.get_target(direction)
+		y, x = self.hero.y, self.hero.x
+		if direction == 'u':
+			y -= 1
+		if direction == 'd':
+			y += 1
+		if direction == 'l':
+			x -= 1
+		if direction == 'r':
+			x += 1
+
 		if self.map[y][x] in ['+', ' ']:
 			return
-		
+
 		for item in self.items:
 			if item.y == y and item.x == x:
-				item.act(self.hero)
+				if item.symbol == '*':
+					self.hero.gold += random.randint(1, 50)
+				if item.symbol == '!':
+					self.hero.strength += 5
+				if item.symbol == '%':
+					self.hero.hp = -1337
 				self.items.remove(item)
 				self.hero.y, self.hero.x = y, x
 				return
 
 		for monster in self.monsters:
-			return
+			if monster.y == y and monster.x == x:
+				if self.hero.hit():
+					self.message += "You've hit a monster. "
+					monster.hp -= self.hero.strength // 5
+					monster.received_hits += 1
+				else:
+					self.message += "You've missed a hit on a monster. "
+				if monster.hit():
+					self.message += "A monster hit you. "
+					self.hero.hp -= 5
+				else:
+					self.message += "A monster missed his hit on you."
+				if monster.hp < 1:
+					self.message = "You've defeated a monster"
+					self.monsters.remove(monster)
+					self.hero.xp += monster.received_hits
+				return
 
 		self.hero.y, self.hero.x = y, x
-
-	def get_target(self, direction):
-		y, x = self.get_hero_yx()
-		if direction == 'u':
-			y -= 1
-		elif direction == 'd':
-			y += 1
-		elif direction == 'l':
-			x -= 1
-		elif direction == 'r':
-			x += 1
-		return y, x
