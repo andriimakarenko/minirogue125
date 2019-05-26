@@ -65,6 +65,15 @@ class Controller(object):
 			result.append([monster.y, monster.x, monster.letter])
 		return result
 
+	def get_items(self):
+		result = []
+		for item in self.items:
+			result.append([item.y, item.x, item.symbol])
+		return result
+
+	def is_lighted(self, y, x):
+		return True
+
 	#########################################################################
 	#                      CONTROL REQUESTS HANDLING                        #
 	#########################################################################
