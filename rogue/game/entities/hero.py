@@ -7,21 +7,9 @@
 #                                                                   #
 #####################################################################
 
-import rogue
-import curses
-from rogue.scenes.menu import Menu
-from rogue.game.controller import Controller
+# No need for an Entity superclass, as the only thing entities share
+# is having coordinates
 
-def main():
-	player_name = input("What's ur name, playa? ")
-	menu = Menu()
-	# Counter-intuitive naming, I know. Short on time
-	selected_option = menu.draw()
-	if selected_option == "HS":
-		menu.print_highscore()
-	elif selected_option == "MAN":
-		menu.print_manual()
-	elif selected_option == "P":
-		controller = Controller(player_name)
-		controller.initialize()
-	print(selected_option)
+class Hero(object):
+	def __init__(self, y = 0, x = 0):
+		pass

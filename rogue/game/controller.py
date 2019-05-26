@@ -7,21 +7,22 @@
 #                                                                   #
 #####################################################################
 
-import rogue
-import curses
-from rogue.scenes.menu import Menu
-from rogue.game.controller import Controller
+from rogue.game.entities.hero import Hero
+from rogue.game.entities.monster import Monster
+from rogue.game.entities.item import Item
 
-def main():
-	player_name = input("What's ur name, playa? ")
-	menu = Menu()
-	# Counter-intuitive naming, I know. Short on time
-	selected_option = menu.draw()
-	if selected_option == "HS":
-		menu.print_highscore()
-	elif selected_option == "MAN":
-		menu.print_manual()
-	elif selected_option == "P":
-		controller = Controller(player_name)
-		controller.initialize()
-	print(selected_option)
+class Controller(object):
+	def __init__(self, name):
+		self.player_name = name
+		if len(name) == 0:
+			self.player_name = "Player One"
+		self.hero = Hero()
+		self.monsters = []
+		self.items = []
+		self.rooms = [] # ID, upper left, and lower right in each
+		self.legit_coordinates = []
+		self.lighted_zones = []
+
+	def initialize(self):
+		print("Empiezando la importacion")
+		print("Gracias por el juego, " + self.player_name)
