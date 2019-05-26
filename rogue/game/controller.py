@@ -21,7 +21,7 @@ class Controller(object):
 		self.items = []
 		self.map = []
 		self.rooms = [] # ID, upper left, and lower right in each
-		self.legit_coordinates = []
+		self.inventory = []
 		self.lighted_zones = []
 
 	def initialize(self):
@@ -38,8 +38,6 @@ class Controller(object):
 			print("All went to hell")
 		for y in range(len(self.map)):
 			for x in range(len(self.map[y])):
-				if self.map[y][x] not in [' ', '—', '|']:
-					self.legit_coordinates.append((y, x))
 				if self.map[y][x] == '@':
 					self.hero.y, self.hero.x = y, x
 				elif self.map[y][x] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -82,20 +80,30 @@ class Controller(object):
 	#########################################################################
 
 	def try_move(self, direction):
+		y, x = self.get_target(direction)
+		if self.map[y][x] in ['+', ' ']:
+			return
+		
+		for item in self.items:
+			if item.y == y and item.x == x:
+				item.act(hero)
+				self.items.remove(item)
+				self.hero.y, self.hero.x = y, x
+				return
+
+		for monster in self.monsters:
+			return
+
+		self.hero.y, self.hero.x = y, x
+
+	def get_target(self, direction):
+		y, x = self.get_hero_yx()
 		if direction == 'u':
-			if ((self.hero.y - 1), self.hero.x) in legit_coordinates:
-				self.hero.y -= 1
-				return True
-		if direction == 'd':
-			if ((self.hero.y + 1), self.hero.x) in legit_coordinates:
-				self.hero.y += 1
-				return True
-		if direction == 'l':
-			if (self.hero.y, (self.hero.x - 1)) in legit_coordinates:
-				self.hero.x -= 1
-				return True
-		if direction == 'd':
-			if (self.hero.y, (self.hero.x + 1)) in legit_coordinates:
-				self.hero.x += 1
-				return True
-		return False
+			y -= 1
+		elif direction == 'd':
+			y += 1
+		elif direction == 'l':
+			x -= 1
+		elif direction == 'r':
+			x += 1
+		return y, x

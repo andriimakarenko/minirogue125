@@ -9,7 +9,6 @@
 
 import curses
 import csv
-from rogue.game.visual import start_game
 
 # def initialize_color_pairs():
 	# curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -80,7 +79,6 @@ class Menu(object):
 				self.selected += 1
 				self.print_menu(self.selected, stdscr)
 			if key == curses.KEY_ENTER or key in [10, 13]:
-				curses.endwin()
 				curses.curs_set(1)
 				curses.echo()
 				curses.nocbreak()

@@ -17,3 +17,6 @@ class Item(object):
 		self.symbol = symbol
 		self.y = y
 		self.x = x
+
+	def act(self, hero):
+		pass
